@@ -1,0 +1,8 @@
+exports.constants = {
+  // API
+  VALIDATION_ERROR: 400,
+  SERVER_ERROR: 500,
+  UNAUTHORIZED: 401,
+  FORBIDDEN: 403,
+  NOT_FOUND: 404,
+};
