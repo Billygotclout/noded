@@ -1,7 +1,7 @@
 const blogService = require("../services/blog.service");
 const asyncHandler = require("express-async-handler");
 
-const getAllBlogPosts = asyncHandler(async (req, res) => {
+const getAllBlogPosts = asyncHandler(async (req, res, next) => {
   try {
     const blogs = await blogService.getAllPosts(req.user.id);
     if (!blogs) {
@@ -13,10 +13,10 @@ const getAllBlogPosts = asyncHandler(async (req, res) => {
       data: blogs,
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 });
-const createBlogPost = asyncHandler(async (req, res) => {
+const createBlogPost = asyncHandler(async (req, res, next) => {
   try {
     const response = await blogService.createPost({
       user_id: req.user.id,
@@ -32,10 +32,10 @@ const createBlogPost = asyncHandler(async (req, res) => {
       data: response,
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 });
-const getBlogPostById = asyncHandler(async (req, res) => {
+const getBlogPostById = asyncHandler(async (req, res, next) => {
   try {
     const response = await blogService.getPostsById(req.params.id);
     if (!response) {
@@ -47,10 +47,10 @@ const getBlogPostById = asyncHandler(async (req, res) => {
       data: response,
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 });
-const updateBlogPost = asyncHandler(async (req, res) => {
+const updateBlogPost = asyncHandler(async (req, res, next) => {
   try {
     const response = await blogService.updatePost(req.params.id, {
       title: req.body.title,
@@ -65,10 +65,10 @@ const updateBlogPost = asyncHandler(async (req, res) => {
       data: response,
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 });
-const deleteBlogPost = asyncHandler(async (req, res) => {
+const deleteBlogPost = asyncHandler(async (req, res, next) => {
   try {
     const response = await blogService.deletePost(req.params.id);
     if (!response) {
@@ -80,7 +80,7 @@ const deleteBlogPost = asyncHandler(async (req, res) => {
       data: response,
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 });
 

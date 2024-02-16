@@ -14,7 +14,7 @@ app.use("/api/auth", require("./routes/user.routes"));
 app.use("/api/blogs", require("./routes/blog.routes"));
 app.use(errorHandler);
 
-app.get("/", (req, res) => {
+app.get("/", (req, res, next) => {
   res.send("Hello World");
 });
 

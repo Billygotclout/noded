@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv").config();
 const User = require("../models/user");
 
-const signUpUser = asyncHandler(async (req, res) => {
+const signUpUser = asyncHandler(async (req, res, next) => {
   try {
     const response = await userService.register({
       firstname: req.body.firstname,
@@ -21,10 +21,10 @@ const signUpUser = asyncHandler(async (req, res) => {
       data: response,
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 });
-const loginUser = asyncHandler(async (req, res) => {
+const loginUser = asyncHandler(async (req, res, next) => {
   try {
     const response = await userService.login({
       email: req.body.email,
@@ -53,10 +53,10 @@ const loginUser = asyncHandler(async (req, res) => {
       data: response,
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 });
-const currentUser = asyncHandler(async (req, res) => {
+const currentUser = asyncHandler(async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id);
     if (!user) {
@@ -77,10 +77,10 @@ const currentUser = asyncHandler(async (req, res) => {
     console.log();
     res.status(200).json({ message: "User Successfully fetched", data: user });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 });
-const refreshUserToken = asyncHandler(async (req, res) => {
+const refreshUserToken = asyncHandler(async (req, res, next) => {
   try {
     const response = await userService.refreshToken({
       token: req.headers.authorization.split(" ")[1],
@@ -91,10 +91,10 @@ const refreshUserToken = asyncHandler(async (req, res) => {
     }
     res.status(200).json({ message: "Token refreshed successfully" });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 });
-const logoutUser = asyncHandler(async (req, res) => {
+const logoutUser = asyncHandler(async (req, res, next) => {
   try {
     const logout = await userService.logout({
       token: req.headers.authorization.split(" ")[1],
@@ -105,7 +105,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     }
     res.status(200).json({ message: "User logged out successfully" });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 });
 module.exports = {
