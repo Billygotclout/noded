@@ -42,7 +42,8 @@ const loginUser = asyncHandler(async (req, res, next) => {
           id: response.id,
         },
       },
-      process.env.TOKEN_SECRET
+      process.env.TOKEN_SECRET,
+      { expiresIn: "5h" }
     );
     response.token = token;
     await response.save();
